@@ -1,0 +1,34 @@
+rules:
+
+  - id: IRR-001
+    name: High Water Stress
+    condition:
+      water_stress_probability: ">0.80"
+      rainfall_probability_24h: "<0.30"
+    action:
+      type: irrigation_assessment
+      priority: high
+    explanation:
+      - low predicted rainfall
+      - high predicted water stress
+
+  - id: IRR-002
+    name: Rainfall Expected
+    condition:
+      water_stress_probability: ">0.70"
+      rainfall_probability_24h: ">0.70"
+    action:
+      type: delay_irrigation
+      priority: medium
+    explanation:
+      - rainfall expected
+      - avoid unnecessary irrigation
+
+  - id: IRR-003
+    name: Moderate Stress
+    condition:
+      water_stress_probability: ">=0.40"
+      water_stress_probability: "<0.80"
+    action:
+      type: monitor
+      priority: medium

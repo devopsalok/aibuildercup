@@ -1,0 +1,22 @@
+recommendation_framework:
+
+  step_1:
+    action: assess_current_condition
+
+  step_2:
+    action: predict_future_risk
+
+  step_3:
+    action: generate_possible_actions
+
+  step_4:
+    action: simulate_actions
+
+  step_5:
+    action: compare_outcomes
+
+  step_6:
+    action: optimize
+
+  step_7:
+    action: explain_recommendation

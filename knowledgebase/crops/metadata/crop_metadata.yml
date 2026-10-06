@@ -1,0 +1,115 @@
+crops:
+
+  wheat:
+    category: cereal
+    scientific_name: Triticum aestivum
+    major_risks:
+      - water_stress
+      - heat_stress
+      - disease
+    critical_stages:
+      - crown_root_initiation
+      - flowering
+      - grain_filling
+
+  rice:
+    category: cereal
+    scientific_name: Oryza sativa
+    major_risks:
+      - drought
+      - flooding
+      - waterlogging
+      - disease
+    critical_stages:
+      - tillering
+      - flowering
+      - grain_filling
+
+  maize:
+    category: cereal
+    scientific_name: Zea mays
+    major_risks:
+      - drought
+      - heat_stress
+      - pests
+    critical_stages:
+      - tasseling
+      - silking
+      - grain_filling
+
+  cotton:
+    category: cash_crop
+    scientific_name: Gossypium spp.
+    major_risks:
+      - drought
+      - heat_stress
+      - pests
+    critical_stages:
+      - flowering
+      - boll_development
+
+  sugarcane:
+    category: cash_crop
+    scientific_name: Saccharum spp.
+    major_risks:
+      - water_stress
+      - waterlogging
+      - pests
+      - disease
+
+  soybean:
+    category: oilseed
+    scientific_name: Glycine max
+    major_risks:
+      - drought
+      - waterlogging
+      - disease
+
+  groundnut:
+    category: oilseed
+    scientific_name: Arachis hypogaea
+    major_risks:
+      - drought
+      - excess_moisture
+      - disease
+
+  mustard:
+    category: oilseed
+    scientific_name: Brassica juncea
+    major_risks:
+      - temperature_stress
+      - water_stress
+      - pests
+
+  chickpea:
+    category: pulse
+    scientific_name: Cicer arietinum
+    major_risks:
+      - drought
+      - disease
+      - temperature_stress
+
+  tomato:
+    category: vegetable
+    scientific_name: Solanum lycopersicum
+    major_risks:
+      - heat_stress
+      - water_stress
+      - disease
+
+  potato:
+    category: tuber
+    scientific_name: Solanum tuberosum
+    major_risks:
+      - water_stress
+      - excess_moisture
+      - disease
+
+  chilli:
+    category: spice_cash_crop
+    scientific_name: Capsicum annuum
+    major_risks:
+      - water_stress
+      - heat_stress
+      - pests
+      - disease
