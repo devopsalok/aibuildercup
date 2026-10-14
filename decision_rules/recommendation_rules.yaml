@@ -1,22 +1,21 @@
 recommendation_framework:
+  objective: Rank feasible scenarios by rule risk, water use, and estimated water cost.
 
-  step_1:
-    action: assess_current_condition
+scenarios:
+  - id: irrigate_now
+    name: Irrigate now
+    irrigation_mm: 20
+    water_stress_reduction: 25
+    description: Apply the configured full irrigation amount; reassess field conditions afterward.
 
-  step_2:
-    action: predict_future_risk
+  - id: reduced_irrigation
+    name: Reduced irrigation
+    irrigation_mm: 10
+    water_stress_reduction: 15
+    description: Apply half of the configured full amount and monitor soil moisture.
 
-  step_3:
-    action: generate_possible_actions
-
-  step_4:
-    action: simulate_actions
-
-  step_5:
-    action: compare_outcomes
-
-  step_6:
-    action: optimize
-
-  step_7:
-    action: explain_recommendation
+  - id: delay_and_monitor
+    name: Delay irrigation and monitor
+    irrigation_mm: 0
+    water_stress_reduction: 0
+    description: Do not irrigate now; reassess soil moisture and rainfall within 24 hours.

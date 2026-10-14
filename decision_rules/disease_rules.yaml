@@ -1,0 +1,51 @@
+rules:
+  - id: DIS-001
+    name: Humid disease-favorable conditions
+    category: disease
+    conditions:
+      - field: humidity_pct
+        operator: ">="
+        value: 85
+      - field: temperature_c
+        operator: ">="
+        value: 15
+      - field: temperature_c
+        operator: "<="
+        value: 30
+    score: 65
+    action:
+      type: increase_disease_monitoring
+      priority: medium
+    explanation:
+      - Humid, mild-temperature conditions can favor some diseases; this is not a diagnosis.
+
+  - id: DIS-002
+    name: Field symptoms reported
+    category: disease
+    conditions:
+      - field: symptoms_reported
+        operator: "=="
+        value: true
+    score: 85
+    action:
+      type: inspect_and_confirm_symptoms
+      priority: high
+    explanation:
+      - Symptoms were reported; inspect the field and seek a validated diagnosis before treatment.
+
+  - id: DIS-003
+    name: Wet and humid conditions
+    category: disease
+    conditions:
+      - field: rainfall_mm_24h
+        operator: ">="
+        value: 10
+      - field: humidity_pct
+        operator: ">="
+        value: 80
+    score: 75
+    action:
+      type: increase_disease_monitoring
+      priority: high
+    explanation:
+      - Recent or forecast wetness and high humidity favor some diseases; inspect before acting.

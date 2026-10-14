@@ -1,0 +1,42 @@
+rules:
+  - id: CLI-001
+    name: High temperature
+    category: climate
+    conditions:
+      - field: temperature_c
+        operator: ">="
+        value: 38
+    score: 75
+    action:
+      type: prepare_for_heat_stress
+      priority: high
+    explanation:
+      - Temperature has reached the configured heat-risk threshold.
+
+  - id: CLI-002
+    name: Low temperature
+    category: climate
+    conditions:
+      - field: temperature_c
+        operator: "<="
+        value: 5
+    score: 60
+    action:
+      type: monitor_cold_stress
+      priority: medium
+    explanation:
+      - Temperature has reached the configured cold-risk threshold.
+
+  - id: CLI-003
+    name: Heavy rainfall
+    category: climate
+    conditions:
+      - field: rainfall_mm_24h
+        operator: ">="
+        value: 75
+    score: 85
+    action:
+      type: inspect_for_waterlogging
+      priority: high
+    explanation:
+      - Forecast rainfall has reached the configured heavy-rain threshold.

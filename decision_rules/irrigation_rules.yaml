@@ -1,34 +1,136 @@
 rules:
-
   - id: IRR-001
-    name: High Water Stress
-    condition:
-      water_stress_probability: ">0.80"
-      rainfall_probability_24h: "<0.30"
+    name: Very low soil moisture
+    category: water_stress
+    conditions:
+      - field: soil_moisture_pct
+        operator: "<"
+        value: 15
+    score: 90
     action:
-      type: irrigation_assessment
+      type: assess_irrigation
       priority: high
     explanation:
-      - low predicted rainfall
-      - high predicted water stress
+      - Soil moisture is below the configured very-low threshold.
 
   - id: IRR-002
-    name: Rainfall Expected
-    condition:
-      water_stress_probability: ">0.70"
-      rainfall_probability_24h: ">0.70"
+    name: Low soil moisture
+    category: water_stress
+    conditions:
+      - field: soil_moisture_pct
+        operator: "<"
+        value: 25
+    score: 65
     action:
-      type: delay_irrigation
+      type: assess_irrigation
       priority: medium
     explanation:
-      - rainfall expected
-      - avoid unnecessary irrigation
+      - Soil moisture is below the configured monitoring threshold.
 
   - id: IRR-003
-    name: Moderate Stress
-    condition:
-      water_stress_probability: ">=0.40"
-      water_stress_probability: "<0.80"
+    name: Low moisture during a critical wheat stage
+    category: water_stress
+    conditions:
+      - field: soil_moisture_pct
+        operator: "<"
+        value: 35
+      - field: growth_stage
+        operator: in
+        value:
+          - crown_root_initiation
+          - flowering
+          - grain_filling
+      - field: crop
+        operator: "=="
+        value: wheat
+    score: 70
     action:
-      type: monitor
-      priority: medium
+      type: assess_irrigation
+      priority: high
+    explanation:
+      - Soil moisture is low during a growth stage marked critical for wheat.
+
+  - id: IRR-004
+    name: Low moisture during a critical rice stage
+    category: water_stress
+    conditions:
+      - field: soil_moisture_pct
+        operator: "<"
+        value: 35
+      - field: growth_stage
+        operator: in
+        value:
+          - tillering
+          - flowering
+          - grain_filling
+      - field: crop
+        operator: "=="
+        value: rice
+    score: 70
+    action:
+      type: assess_irrigation
+      priority: high
+    explanation:
+      - Soil moisture is low during a growth stage marked critical for rice.
+
+  - id: IRR-005
+    name: Low moisture during a critical maize stage
+    category: water_stress
+    conditions:
+      - field: soil_moisture_pct
+        operator: "<"
+        value: 35
+      - field: growth_stage
+        operator: in
+        value:
+          - tasseling
+          - silking
+          - grain_filling
+      - field: crop
+        operator: "=="
+        value: maize
+    score: 70
+    action:
+      type: assess_irrigation
+      priority: high
+    explanation:
+      - Soil moisture is low during a growth stage marked critical for maize.
+
+  - id: IRR-006
+    name: Low moisture during a critical cotton stage
+    category: water_stress
+    conditions:
+      - field: soil_moisture_pct
+        operator: "<"
+        value: 35
+      - field: growth_stage
+        operator: in
+        value:
+          - flowering
+          - boll_development
+      - field: crop
+        operator: "=="
+        value: cotton
+    score: 70
+    action:
+      type: assess_irrigation
+      priority: high
+    explanation:
+      - Soil moisture is low during a growth stage marked critical for cotton.
+
+  - id: IRR-007
+    name: Rainfall expected soon
+    category: water_stress
+    conditions:
+      - field: rainfall_probability_24h
+        operator: ">="
+        value: 0.7
+      - field: rainfall_mm_24h
+        operator: ">="
+        value: 5
+    score: 0
+    action:
+      type: consider_delaying_irrigation
+      priority: low
+    explanation:
+      - Forecast rainfall may reduce the need for immediate irrigation; reassess if conditions change.

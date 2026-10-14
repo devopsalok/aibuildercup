@@ -1,0 +1,28 @@
+rules:
+  - id: STR-001
+    name: Very low vegetation index
+    category: crop_stress
+    conditions:
+      - field: ndvi
+        operator: "<"
+        value: 0.3
+    score: 80
+    action:
+      type: inspect_crop_condition
+      priority: high
+    explanation:
+      - NDVI is low; this indicator alone does not identify the cause of crop stress.
+
+  - id: STR-002
+    name: Low vegetation index
+    category: crop_stress
+    conditions:
+      - field: ndvi
+        operator: "<"
+        value: 0.45
+    score: 55
+    action:
+      type: monitor_crop_condition
+      priority: medium
+    explanation:
+      - NDVI is below the configured monitoring threshold.

@@ -1,0 +1,42 @@
+rules:
+  - id: FERT-001
+    name: Low soil nitrogen
+    category: nutrient
+    conditions:
+      - field: nitrogen_mg_kg
+        operator: "<"
+        value: 20
+    score: 65
+    action:
+      type: review_nitrogen_plan
+      priority: medium
+    explanation:
+      - Soil nitrogen is below the configurable screening threshold; confirm with a local soil test recommendation.
+
+  - id: FERT-002
+    name: Low soil phosphorus
+    category: nutrient
+    conditions:
+      - field: phosphorus_mg_kg
+        operator: "<"
+        value: 10
+    score: 55
+    action:
+      type: review_phosphorus_plan
+      priority: medium
+    explanation:
+      - Soil phosphorus is below the configurable screening threshold; confirm crop- and soil-specific guidance.
+
+  - id: FERT-003
+    name: Low soil potassium
+    category: nutrient
+    conditions:
+      - field: potassium_mg_kg
+        operator: "<"
+        value: 100
+    score: 55
+    action:
+      type: review_potassium_plan
+      priority: medium
+    explanation:
+      - Soil potassium is below the configurable screening threshold; confirm crop- and soil-specific guidance.
