@@ -23,6 +23,7 @@ from src.models.plant_disease_model import (  # noqa: E402
 from src.models.irrigation_model import estimate_irrigation  # noqa: E402
 from src.models.stress_model import estimate_stress  # noqa: E402
 from src.models.yield_model import estimate_yield  # noqa: E402
+from src.assistant.local_crop_chat import CropChatError, ask_local_crop_assistant  # noqa: E402
 from src.recommendation.engine import (  # noqa: E402
     FieldData,
     RuleConfigurationError,
@@ -37,6 +38,9 @@ from src.recommendation.decision_intelligence import (  # noqa: E402
 
 
 st.set_page_config(page_title="AgriGuard | Field decision support", layout="wide")
+st.session_state.setdefault("agri_chat_messages", [])
+st.session_state.setdefault("agri_last_assessment_context", "")
+st.session_state.setdefault("agri_last_assessment_crop", "")
 
 
 @st.cache_resource
@@ -295,6 +299,24 @@ if submitted:
                 else None
             ),
         )
+        st.session_state["agri_last_assessment_context"] = "\n".join(
+            [
+                f"Crop: {crop}; growth stage: {growth_stage}.",
+                f"Soil moisture: {soil_moisture_pct:g}% plant-available water; "
+                f"temperature: {temperature_c:g} C; rainfall forecast: "
+                f"{rainfall_probability:.0%}, {rainfall_mm:g} mm.",
+                f"NDVI: {ndvi:g}; field symptoms reported: {symptoms_reported}.",
+                *[
+                    (
+                        f"{decision.domain}: {decision.status}, priority "
+                        f"{decision.priority}, indicator {decision.score}; "
+                        f"next step: {decision.recommendation}"
+                    )
+                    for decision in decision_report.decisions
+                ],
+            ]
+        )
+        st.session_state["agri_last_assessment_crop"] = crop
         risk_scores = {
             category: score
             for category, score in assessment.scores.items()
@@ -498,3 +520,40 @@ if submitted:
     )
 else:
     st.info("Enter field observations and submit the form to generate an assessment and scenario ranking.")
+
+st.divider()
+st.header("Ask the local AgriGuard assistant")
+st.caption(
+    "Powered by Ollama and the local Qwen2.5 3B model. Your question and assessment context are "
+    "sent only to the Ollama service configured on this machine."
+)
+st.markdown(
+    "To enable it, install Ollama and run `ollama pull qwen2.5:3b`. Ollama must be running locally."
+)
+for chat_message in st.session_state["agri_chat_messages"]:
+    with st.chat_message(chat_message["role"]):
+        st.markdown(chat_message["content"])
+
+chat_question = st.chat_input("Ask about this crop, the assessment, or local guidance")
+if chat_question:
+    st.session_state["agri_chat_messages"].append(
+        {"role": "user", "content": chat_question}
+    )
+    with st.chat_message("user"):
+        st.markdown(chat_question)
+    with st.chat_message("assistant"):
+        with st.spinner("Consulting the local crop guidance..."):
+            try:
+                answer = ask_local_crop_assistant(
+                    chat_question,
+                    crop=st.session_state["agri_last_assessment_crop"] or crop,
+                    assessment_context=st.session_state["agri_last_assessment_context"],
+                    history=st.session_state["agri_chat_messages"][:-1],
+                )
+            except (CropChatError, FileNotFoundError, ValueError) as error:
+                st.error(f"Local assistant unavailable: {error}")
+            else:
+                st.markdown(answer)
+                st.session_state["agri_chat_messages"].append(
+                    {"role": "assistant", "content": answer}
+                )

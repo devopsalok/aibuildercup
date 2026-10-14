@@ -16,6 +16,33 @@ symptom observations, and an estimated water/energy cost rate. It evaluates the 
 `decision_rules/`, simulates feasible irrigation scenarios, and ranks them by risk, water use, and
 estimated cost. Scenario priority weights can be adjusted in the form.
 
+## Local open-source crop assistant
+
+The Streamlit app includes an optional chat assistant backed by Ollama and Qwen2.5 3B (Apache-2.0).
+Install Ollama, then download the model and start the local Ollama service:
+
+```powershell
+ollama pull qwen2.5:3b
+ollama serve
+python -m streamlit run dasboard/app.py
+```
+
+The assistant sends requests only to the local Ollama endpoint (`http://127.0.0.1:11434` by default)
+and retrieves relevant Markdown guidance from `knowledgebase/crops/decision_intelligence/`, the
+selected crop profile, and the latest field assessment. The latest assessment is provided as chat
+context; chat history is held in Streamlit session state. If Ollama or the model is unavailable, the
+app shows an explicit error and setup guidance rather than generating a fallback answer.
+
+Optional configuration:
+
+```powershell
+$env:AGUARD_OLLAMA_URL = "http://127.0.0.1:11434"
+$env:AGUARD_OLLAMA_MODEL = "qwen2.5:3b"
+```
+
+LLM responses can be wrong. The assistant is instructed not to invent diagnoses, prices, thresholds,
+or application rates, but always verify agronomic recommendations with local qualified guidance.
+
 Run the rule-engine checks with:
 
 ```powershell
