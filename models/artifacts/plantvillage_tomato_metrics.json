@@ -1,0 +1,40 @@
+{
+  "dataset": "PlantVillage tomato color images",
+  "dataset_url": "https://huggingface.co/datasets/mohanty/PlantVillage",
+  "license": "CC BY-SA 3.0",
+  "seed": 42,
+  "train_rows": 95,
+  "test_rows": 38,
+  "test_accuracy": 0.8421052631578947,
+  "test_balanced_accuracy": 0.8472222222222222,
+  "test_disease_brier_score": 0.13354429508722193,
+  "classification_report": {
+    "healthy": {
+      "precision": 0.9375,
+      "recall": 0.75,
+      "f1-score": 0.8333333333333334,
+      "support": 20.0
+    },
+    "diseased": {
+      "precision": 0.7727272727272727,
+      "recall": 0.9444444444444444,
+      "f1-score": 0.85,
+      "support": 18.0
+    },
+    "accuracy": 0.8421052631578947,
+    "macro avg": {
+      "precision": 0.8551136363636364,
+      "recall": 0.8472222222222222,
+      "f1-score": 0.8416666666666667,
+      "support": 38.0
+    },
+    "weighted avg": {
+      "precision": 0.8594497607655501,
+      "recall": 0.8421052631578947,
+      "f1-score": 0.8412280701754387,
+      "support": 38.0
+    }
+  },
+  "trained_at_utc": "2026-10-14T06:08:42.252238+00:00",
+  "scope_note": "Binary tomato leaf-image screening on a small, controlled-background subset. Not a field-level disease diagnosis and not validated on farmer photographs."
+}
